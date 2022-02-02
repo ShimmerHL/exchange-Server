@@ -5,20 +5,21 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-const fs  =require('fs')
+const fs = require('fs')
 const path = require('path')
 
 
 const Index = require('./routes/Index')
 const users = require('./routes/users')
 const Details = require('./routes/Details')
+const Personal = require('./routes/Personal')
 
 // error handler
 onerror(app)
 
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes: ['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())
@@ -40,9 +41,10 @@ app.use(async (ctx, next) => {
 app.use(Index.routes(), Index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(Details.routes(), Details.allowedMethods())
+app.use(Personal.routes(), Personal.allowedMethods())
 app.use(async (ctx, next) => {
 
-  let FilePath = path.join(__dirname,ctx.url) 
+  let FilePath = path.join(__dirname, ctx.url)
   let file = null
   try {
     file = fs.readFileSync(FilePath); //读取文件
