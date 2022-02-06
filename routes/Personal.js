@@ -18,6 +18,8 @@ router.post('/Personal', async ctx => {
     //获取唯一标识
     let Data = ""
     Username = ctx.request.body.UserName
+    let NewDate = Utils.formatTime(new Date)
+
     let CodeSession = new Promise((res, rej) => {
         https.get(`https://api.weixin.qq.com/sns/jscode2session?appid=wx5fc605f95c3f149a&secret=19258f927c56a163d920cd8d2dadeb3d&js_code=${ctx.request.body.Code}&grant_type=authorization_code`,
             (callback) => {
@@ -32,28 +34,39 @@ router.post('/Personal', async ctx => {
                     Session_Key = params.session_key
                     Openid = params.openid
                     let IfOpenid = Utils.JsonObj(await GetOpenidData(Openid))
+                    
                     //判断用户是否存在
                     if (IfOpenid.length == 0) {
                         //不存在则添加
                         db.query(`insert into WeChatUserLogin (UserName,Useropenid) values ('${Username}','${Openid}')`, (err) => {
                             console.log(err)
                         })
-                        res(Utils.JsonObj(await GetOpenidData(Openid)))
+                        //将当前时间设为出生年月
+                       db.query(`update WeChatUserLogin set DateBirth = '${NewDate}'  where Useropenid = '${Openid}'`)    
+                      
+                       res(JSON.stringify(Utils.JsonObj(await GetOpenidData(Openid))[0]))
                     } else {
-                        res(JSON.stringify(Utils.JsonObj(await GetOpenidData(Openid))[0]))
+                        res(JSON.stringify(Utils.JsonObj(await GetOpenidData(Openid))[0]))                
                     }
                 })
 
             })
     })
-    ctx.response.body = await CodeSession
+    let Appid = await JSON.parse(await CodeSession).UserOpenid
+
+    let JsonData = {
+        Appid : Appid,
+       nickName : Utils.JsonObj(await db.query(`select UserName from WeChatUserLogin where Useropenid = '${Appid}'`))[0].UserName 
+    }
+    
+    ctx.response.body = {"Data":[JsonData],Code:200,"mgs":"success"}
 })
 //企业登录处理
 router.post('/EnterpriseUserLogin', async ctx => {
     let Registration = ctx.request.body.Registration
     let Password = ctx.request.body.Password
     let Appid = ctx.request.body.Appid
-    let StateCode = StrRom(16)
+    let StateCode = Utils.StringRamdom(16)
 
     let RegistrationError = { undefined, "Code": 406, "msg": "RegistrationError" }
     let AppidError = { undefined, "Code": 406, "msg": "AppidError" }
@@ -76,6 +89,8 @@ router.post('/EnterpriseUserLogin', async ctx => {
 
         db.query(`update EnterpriseUserLogin set StateCode = '${StateCode}' where Registration = ${Registration}`)
 
+
+        
         ctx.response.body = { "Merchant": StateCode, "Code": 200, msg: "success" }
     } catch (error) {
         console.log(error)
