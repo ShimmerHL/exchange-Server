@@ -31,25 +31,14 @@ let ServerErr = {
 	"Code": 406,
 	"msg": "Error"
 }
-//数组添加比对方法
-Array.prototype.equals = function (array) {
-	if (!array)
-		return false;
 
-	if (this.length != array.length)
-		return false;
-
-	for (var i = 0, l = this.length; i < l; i++) {
-		if (this[i] instanceof Array && array[i] instanceof Array) {
-			if (!this[i].equals(array[i]))
-				return false;
-		}
-		else if (this[i] != array[i]) {
-			return false;
-		}
-	}
-	return true;
+//返回请求成功
+let ServerSuccess = {
+	"data": undefined,
+	"Code": 200,
+	"msg": "Success"
 }
+
 
 //获取年月日时分秒
 function formatTime(date){
@@ -64,5 +53,5 @@ function formatTime(date){
 }
 
 module.exports = {
-	JsonObj, ServerErr, StringRamdom,formatTime
+	JsonObj, ServerErr,ServerSuccess, StringRamdom,formatTime
 }
