@@ -15,6 +15,8 @@ const Details = require('./routes/Details')
 const Personal = require('./routes/Personal')
 const ModifySetup = require('./routes/ModifySetup')
 const CustomGifts = require('./routes/CustomGifts')
+const TotalGifts = require('./routes/TotalGifts')
+const RedemptionCode = require('./routes/RedemptionCode')
 // error handler
 onerror(app)
 
@@ -45,6 +47,8 @@ app.use(Details.routes(), Details.allowedMethods())
 app.use(Personal.routes(), Personal.allowedMethods())
 app.use(ModifySetup.routes(), ModifySetup.allowedMethods())
 app.use(CustomGifts.routes(), CustomGifts.allowedMethods())
+app.use(TotalGifts.routes(), TotalGifts.allowedMethods())
+app.use(RedemptionCode.routes(), RedemptionCode.allowedMethods())
 app.use(async (ctx, next) => {
 
   let FilePath = path.join(__dirname, ctx.url)

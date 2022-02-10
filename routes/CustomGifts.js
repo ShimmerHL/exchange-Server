@@ -31,9 +31,10 @@ let Finish = [null, null, null, null, null, null, null]
 let FrontEnd = [null, null, null, null, null, null, null]
 //默认热度
 let Frequency = 0
-
+//存储兑换码
+let Code = []
 //初始化数据
-function Initialize(){
+function Initialize() {
     ImgDir = ""
     GiftUnique = ""
     Registration = ""
@@ -85,8 +86,8 @@ let Insert = (Finish, FrontEnd) => {
                 IntroduceImg.push(" ")
             }
         }
-        
-         db.query(`INSERT INTO CustomGifts
+
+        db.query(`INSERT INTO CustomGifts
         (GiftUnique,CarouselPictures1,CarouselPictures2,CarouselPictures3,CarouselPictures4,CarouselPictures5,
             Specification1,Specification2,Specification3,Specification4,Specification5,
             IntroduceImg1,IntroduceImg2,IntroduceImg3,IntroduceImg4,IntroduceImg5,
@@ -99,7 +100,7 @@ let Insert = (Finish, FrontEnd) => {
             '${BusinessName}','${CommodityFunllName}','${CommodityName}','${Registration}',${GiftNumber})`, (err) => {
             console.log(err)
         })
-        let dbInert =  db.query(`INSERT INTO Details
+        let dbInert = db.query(`INSERT INTO Details
             (GiftUnique,CarouselPictures1,CarouselPictures2,CarouselPictures3,CarouselPictures4,CarouselPictures5,
                 Specification1,Specification2,Specification3,Specification4,Specification5,
                 IntroduceImg1,IntroduceImg2,IntroduceImg3,IntroduceImg4,IntroduceImg5,
@@ -113,9 +114,14 @@ let Insert = (Finish, FrontEnd) => {
                 ${Frequency},${GiftNumber},'${CarouselPicturesImg[0]}','${Registration}')`, (err) => {
             console.log(err)
         })
+        //插入礼品数相对的兑换码 0为未使用
+        for (let i = 0; i < GiftNumber; i++) {
+            db.query(`insert into RedemptionCode (GiftUnique,RedemptionCode,Used) value ('${GiftUnique}','${Utils.StringRamdom(15)}',0)`)
+        }
+
         Initialize()
         //写入完成
-       return dbInert
+        return 1
     } else {
         Initialize()
         return 0
@@ -246,10 +252,9 @@ try {
 }
 
 router.get('/CustomGifts/dbSuccess', async ctx => {
-    console.log(CarouselPicturesImg)
     //插入数据
-    let InsertOk =  await Insert(Finish, FrontEnd)
-    if (InsertOk == 0) {
+    let InsertOk = await Insert(Finish, FrontEnd)
+    if (InsertOk !== 1) {
         ctx.body = {
             undefined,
             "Code": 500,

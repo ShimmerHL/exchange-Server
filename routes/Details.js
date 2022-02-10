@@ -20,7 +20,7 @@ router.post('/Details', async (ctx) => {
         }
     }
 
-    let Json = {
+    let JsonData = {
         GiftUnique: DBQuery.GiftUnique,
         CommodityName: DBQuery.CommodityName,
         CommodityFunllName: DBQuery.CommodityFunllName,
@@ -32,7 +32,7 @@ router.post('/Details', async (ctx) => {
         Frequency: DBQuery.Frequency,
         Remaining: DBQuery.Remaining,
     }
-    ctx.response.body = JSON.stringify(Json)
+    ctx.response.body = JSON.stringify(JsonData)
 })
 
 

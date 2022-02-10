@@ -25,6 +25,10 @@ function StringRamdom(len) {
 	return strRom
 }
 
+let IfNullArr = (arr) =>{
+	return Object.prototype.isPrototypeOf(arr)&& Object.keys(arr).length === 0
+}
+
 //返回服务器意外错误
 let ServerErr = {
 	"data": undefined,
@@ -53,5 +57,5 @@ function formatTime(date){
 }
 
 module.exports = {
-	JsonObj, ServerErr,ServerSuccess, StringRamdom,formatTime
+	JsonObj, ServerErr,ServerSuccess, StringRamdom,formatTime,IfNullArr
 }
