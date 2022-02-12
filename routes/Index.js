@@ -4,7 +4,8 @@ const Utils = require('../common/utils')
 
 //处理礼品列表
 router.get('/index', async (ctx) => {
-  let JsonArr = await db.query("select GiftUnique,Thumbnail,CommodityName,Frequency from Details where Exist != 1")
+  let JsonArr = await db.query("select GiftUnique,Thumbnail,CommodityName,Frequency,Label from Details where Exist != 1")
+  
   ctx.body = {
     "Data": JsonArr,
     "Code": 200,
