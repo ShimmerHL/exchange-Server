@@ -24,9 +24,30 @@ function StringRamdom(len) {
 
 	return strRom
 }
-
+//空数组判断
 let IfNullArr = (arr) =>{
 	return Object.prototype.isPrototypeOf(arr)&& Object.keys(arr).length === 0
+}
+//创建订单号
+function RandomNumber() {
+	function setTimeDateFmt(s) {  // 个位数补齐订单号十位数
+		return s < 10 ? '0' + s : s;
+	}
+
+    const now = new Date()
+    let month = now.getMonth() + 1
+    let day = now.getDate()
+    let hour = now.getHours()
+    let minutes = now.getMinutes()
+    let seconds = now.getSeconds()
+    month = setTimeDateFmt(month)
+    day = setTimeDateFmt(day)
+    hour = setTimeDateFmt(hour)
+    minutes = setTimeDateFmt(minutes)
+    seconds = setTimeDateFmt(seconds)
+    let orderCode = now.getFullYear().toString() + month.toString() + day + hour + minutes + seconds + (Math.round(Math.random() * 1000000)).toString();
+    console.log(orderCode)
+    return orderCode;
 }
 
 //返回服务器意外错误
@@ -57,5 +78,5 @@ function formatTime(date){
 }
 
 module.exports = {
-	JsonObj, ServerErr,ServerSuccess, StringRamdom,formatTime,IfNullArr
+	JsonObj, ServerErr,ServerSuccess, StringRamdom,formatTime,IfNullArr,RandomNumber
 }

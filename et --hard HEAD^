@@ -1,0 +1,29 @@
+[33mcommit a95664bb2af2d4d52db1d6b4f2eda7375dd2f9f6[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: deicidehl <1411154646@qq.com>
+Date:   Fri Feb 11 00:41:26 2022 +0800
+
+    修改搜索随机功能
+
+[33mcommit ea1f74a8bd0419f17e6725acc53cec1f1759cc1c[m[33m ([m[1;31mexchangeapp/master[m[33m)[m
+Author: deicidehl <1411154646@qq.com>
+Date:   Mon Feb 7 23:54:57 2022 +0800
+
+    修复上传bug
+
+[33mcommit d5063f4f49d372e2d8cf45267b8aa88c26273fdf[m
+Author: deicidehl <1411154646@qq.com>
+Date:   Mon Feb 7 04:51:58 2022 +0800
+
+    完成礼品定制
+
+[33mcommit 257273e86b1ca0c0afd093b8d7cccd71bcd2adb4[m
+Author: deicidehl <1411154646@qq.com>
+Date:   Wed Feb 2 19:52:26 2022 +0800
+
+    完成登录
+
+[33mcommit 8e88fa0cbc647b42848e89fccf5527953fbd6ff5[m
+Author: deicidehl <1411154646@qq.com>
+Date:   Mon Jan 31 20:59:57 2022 +0800
+
+    init
