@@ -60,6 +60,27 @@ router.post('/Personal', async ctx => {
 
     ctx.response.body = { "Data": [JsonData], Code: 200, "mgs": "success" }
 })
+
+
+//用户获取nickName处理
+router.post('/Personal/NickName', async ctx => {
+    let JsonNickName = await db.query(`select UserName from WeChatUserLogin where Useropenid = '${ctx.request.body.Appid}'`)
+    if(Utils.IfNullArr(JsonNickName)){
+        ctx.response.body = {
+            "Data": undefined,
+            "Code" : 406,
+            "mgs" : "error"
+        }
+    }else{
+        ctx.response.body = {
+            "Data": JsonNickName,
+            "Code" : 200,
+            "mgs" : "success"
+        }
+    }
+
+})
+
 //企业登录处理
 router.post('/EnterpriseUserLogin', async ctx => {
     let Registration = ctx.request.body.Registration  //注册企业号

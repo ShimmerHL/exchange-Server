@@ -1,6 +1,6 @@
 const router = require('koa-router')()
 const multer = require('koa-multer')
-const { rmdir, mkdir } = require('fs')
+const { rmdir, mkdir, mkdirSync } = require('fs')
 
 let Utils = require('../common/utils')
 let db = require('../common/db')
@@ -48,8 +48,8 @@ function Initialize() {
     IntroduceImg = []
     Label = ""
     GiftNumber = 1
-    Finish = [null, null, null, null, null, null, null, null]
-    FrontEnd = [null, null, null, null, null, null, null, null]
+    Finish = [null, null, null, null, null, null]
+    FrontEnd = [null, null, null, null, null, null]
 }
 //完成时写入数据库
 async function Insert (Finish, FrontEnd){
@@ -120,8 +120,6 @@ async function Insert (Finish, FrontEnd){
                 ${Frequency},${GiftNumber},'${CarouselPicturesImg[0]}','${Registration}','${Label}',0)`, (err) => {
             console.log(err)
         })
-        console.log(await CustomGiftsInert)
-        console.log(await DetailsInert)
         //插入礼品数相对的兑换码 0为未使用
         for (let i = 0; i < GiftNumber; i++) {
             db.query(`insert into RedemptionCode (GiftUnique,RedemptionCode,Used) value ('${GiftUnique}','${Utils.StringRamdom(15)}',0)`)
@@ -153,15 +151,15 @@ let upload = multer({
 
 //获取商家唯一Code和需要插入的数据统计与礼品标签与礼品总数
 router.post("/CustomGifts", async ctx => {
-    console.log(ctx.request.body.Label)
+    console.log(ctx.request.body)
     FrontEnd = ctx.request.body.FrontEnd
     Registration = ctx.request.body.Registration
     GiftUnique = Utils.StringRamdom(15) + Date.now()
     GiftNumber = ctx.request.body.GiftNumber
-    Label = ctx.request.body.Label
-
+    Label = parseInt(ctx.request.body.Label) + 1 
+    console.log(Number.parseInt(ctx.request.body.Label))
     ImgDir = `public/images/${Registration}/${GiftUnique}/`
-    mkdir(ImgDir, { recursive: true }, (err) => {
+    mkdirSync(ImgDir, { recursive: true }, (err) => {
         if (err) {
             console.log("创建文件夹时出错啦")
             console.log(err)

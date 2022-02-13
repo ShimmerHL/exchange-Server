@@ -4,7 +4,7 @@ const Utils = require("../common/utils")
 //处理订单列表
 router.post('/Order', async ctx => {
     //db.query(``)
-    let JsonData = await db.query(`select OrderUnique,CommodityFunllName,LogisticsStatus,Thumbnail,BusinessName from CheckDetails where Useropenid = '${ctx.request.body.Appid}'`)
+    let JsonData = await db.query(`select OrderUnique,CommodityFunllName,LogisticsStatus,Thumbnail,BusinessName,OrderTime from CheckDetails where Useropenid = '${ctx.request.body.Appid}'`)
     ctx.response.body = {
         "Data": JsonData,
         "Code": 200,
