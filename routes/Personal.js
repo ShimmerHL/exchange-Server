@@ -37,7 +37,7 @@ router.post('/Personal', async ctx => {
                     //判断用户是否存在
                     if (IfOpenid.length == 0) {
                         //不存在则添加
-                        db.query(`insert into WeChatUserLogin (UserName,Useropenid) values ('${Username}','${Openid}')`, (err) => {
+                        db.query(`insert into WeChatUserLogin (UserName,Useropenid,Sex) values ('${Username}','${Openid}',0)`, (err) => {
                             console.log(err)
                         })
                         //将当前时间设为出生年月
@@ -65,7 +65,12 @@ router.post('/Personal', async ctx => {
 //用户获取nickName处理
 router.post('/Personal/NickName', async ctx => {
     let JsonNickName = await db.query(`select UserName from WeChatUserLogin where Useropenid = '${ctx.request.body.Appid}'`)
-    if(Utils.IfNullArr(JsonNickName)){
+    let LogisticsStatusNum = await db.query(`select count(LogisticsStatus = 1 or null)as NotShippedNumber,count(LogisticsStatus = 2 or null)as ReceiptNumber,count(LogisticsStatus = 3 or null)as AfterSaleNumber from CheckDetails where Useropenid = '${ctx.request.body.Appid}'`)
+    JsonData ={
+        JsonNickName: JsonNickName,
+        LogisticsStatusNum : LogisticsStatusNum
+    }
+    if(Utils.IfNullArr(JsonData)){
         ctx.response.body = {
             "Data": undefined,
             "Code" : 406,
@@ -73,7 +78,7 @@ router.post('/Personal/NickName', async ctx => {
         }
     }else{
         ctx.response.body = {
-            "Data": JsonNickName,
+            "Data": JsonData,
             "Code" : 200,
             "mgs" : "success"
         }

@@ -153,10 +153,12 @@ let upload = multer({
 router.post("/CustomGifts", async ctx => {
     console.log(ctx.request.body)
     FrontEnd = ctx.request.body.FrontEnd
+    console.log(ctx.request.body.Label)
+    console.log(ctx.request.body.Registration)
     Registration = ctx.request.body.Registration
     GiftUnique = Utils.StringRamdom(15) + Date.now()
     GiftNumber = ctx.request.body.GiftNumber
-    Label = parseInt(ctx.request.body.Label) + 1 
+    Label = parseInt(ctx.request.body.Label)
     console.log(Number.parseInt(ctx.request.body.Label))
     ImgDir = `public/images/${Registration}/${GiftUnique}/`
     mkdirSync(ImgDir, { recursive: true }, (err) => {
