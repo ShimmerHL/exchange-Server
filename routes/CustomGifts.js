@@ -31,8 +31,6 @@ let GiftNumber = 1
 let Finish = [null, null, null, null, null, null]
 //前端发送的记录
 let FrontEnd = [null, null, null, null, null, null]
-//默认热度
-let Frequency = 0
 //存储兑换码
 let Code = []
 //初始化数据
@@ -110,14 +108,14 @@ async function Insert (Finish, FrontEnd){
             (GiftUnique,CarouselPictures1,CarouselPictures2,CarouselPictures3,CarouselPictures4,CarouselPictures5,
                 Specification1,Specification2,Specification3,Specification4,Specification5,
                 IntroduceImg1,IntroduceImg2,IntroduceImg3,IntroduceImg4,IntroduceImg5,
-                BusinessName,CommodityFunllName,CommodityName,Frequency,Remaining,Thumbnail,Registration,Label,Exist) VALUES 
+                BusinessName,CommodityFunllName,CommodityName,Remaining,Thumbnail,Registration,Label,Exist) VALUES 
                 ('${GiftUnique}','${CarouselPicturesImg[0]}','${CarouselPicturesImg[1]}','${CarouselPicturesImg[2]}',
                 '${CarouselPicturesImg[3]}','${CarouselPicturesImg[4]}','${Specification[0]}',
                 '${Specification[1]}','${Specification[2]}','${Specification[3]}',
                 '${Specification[4]}','${IntroduceImg[0]}','${IntroduceImg[1]}',
                 '${IntroduceImg[2]}','${IntroduceImg[3]}','${IntroduceImg[4]}',
                 '${BusinessName}','${CommodityFunllName}','${CommodityName}',
-                ${Frequency},${GiftNumber},'${CarouselPicturesImg[0]}','${Registration}','${Label}',0)`, (err) => {
+                ${GiftNumber},'${CarouselPicturesImg[0]}','${Registration}','${Label}',0)`, (err) => {
             console.log(err)
         })
         //插入礼品数相对的兑换码 0为未使用

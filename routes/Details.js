@@ -29,7 +29,6 @@ router.post('/Details', async (ctx) => {
         BusinessName: DBQuery.BusinessName,
         IntroduceImg: [...IntroduceImg],
         SpecificationExist: !Specification,
-        Frequency: DBQuery.Frequency,
         Remaining: DBQuery.Remaining,
     }
     ctx.response.body = JSON.stringify(JsonData)
