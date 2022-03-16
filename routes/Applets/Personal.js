@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 const https = require('https')
-const db = require("../common/db")
-const Utils = require("../common/utils")
+const db = require('../../common/db')
+const Utils = require('../../common/utils')
 let StrRom = require('string-random')
 
 let Session_Key = ""

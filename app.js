@@ -7,18 +7,20 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const fs = require('fs')
 const path = require('path')
+const cors = require('koa2-cors')
+const koaBody = require('koa-body')
 
-
-const Index = require('./routes/Index')
-const users = require('./routes/users')
-const Details = require('./routes/Details')
-const Personal = require('./routes/Personal')
-const ModifySetup = require('./routes/ModifySetup')
-const CustomGifts = require('./routes/CustomGifts')
-const TotalGifts = require('./routes/TotalGifts')
-const RedemptionCode = require('./routes/RedemptionCode')
-const CheckDetails = require('./routes/CheckDetails')
-const Order = require('./routes/Order')
+const Index = require('./routes/Applets/Index')
+const Details = require('./routes/Applets/Details')
+const Personal = require('./routes/Applets/Personal')
+const ModifySetup = require('./routes/Applets/ModifySetup')
+const CustomGifts = require('./routes/Applets/CustomGifts')
+const TotalGifts = require('./routes/Applets/TotalGifts')
+const RedemptionCode = require('./routes/Applets/RedemptionCode')
+const CheckDetails = require('./routes/Applets/CheckDetails')
+const Order = require('./routes/Applets/Order')
+const Admin = require('./routes/Manage/Admin')
+const GiftManagement = require('./routes/Manage/GiftManagement')
 // error handler
 onerror(app)
 
@@ -44,7 +46,6 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(Index.routes(), Index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
 app.use(Details.routes(), Details.allowedMethods())
 app.use(Personal.routes(), Personal.allowedMethods())
 app.use(ModifySetup.routes(), ModifySetup.allowedMethods())
@@ -53,7 +54,13 @@ app.use(TotalGifts.routes(), TotalGifts.allowedMethods())
 app.use(RedemptionCode.routes(), RedemptionCode.allowedMethods())
 app.use(CheckDetails.routes(), CheckDetails.allowedMethods())
 app.use(Order.routes(), Order.allowedMethods())
-app.use(async (ctx, next) => {
+app.use(Admin.routes(), Admin.allowedMethods())
+app.use(GiftManagement.routes(), GiftManagement.allowedMethods())
+
+app.use(cors())  //跨域
+//解决上传文件过大问题
+
+app.use(async (ctx, next) => {  //意外端口访问返回图片
 
   let FilePath = path.join(__dirname, ctx.url)
   let file = null

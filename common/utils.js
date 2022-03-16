@@ -77,6 +77,14 @@ function formatTime(date){
 	return `${[year, "0" + month, "0" + day].map(num => num).join('-')}`
 }
 
+let SetHeader = (ctx)=>{  //跨域请求头
+	ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+    ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+}
+
+let ServerUrl = "http://localhost:3000"
+
 module.exports = {
-	JsonObj, ServerErr,ServerSuccess, StringRamdom,formatTime,IfNullArr,RandomNumber
+	JsonObj, ServerErr,ServerSuccess, StringRamdom,formatTime,IfNullArr,RandomNumber,SetHeader,ServerUrl
 }

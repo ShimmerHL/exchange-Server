@@ -1,6 +1,6 @@
 const router = require('koa-router')()
-const db = require('../common/db')
-const Utils = require('../common/utils')
+const db = require('../../common/db')
+const Utils = require('../../common/utils')
 
 //处理礼品列表
 router.get('/index', async (ctx) => {

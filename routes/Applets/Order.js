@@ -1,6 +1,6 @@
 let router = require("koa-router")()
-const db = require("../common/db")
-const Utils = require("../common/utils")
+const db = require('../../common/db')
+const Utils = require('../../common/utils')
 //处理订单列表
 router.post('/Order', async ctx => {
     //db.query(``)

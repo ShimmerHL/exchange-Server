@@ -1,6 +1,6 @@
 const router = require('koa-router')()
-const db = require('../common/db')
-const Utils = require('../common/utils')
+const db = require('../../common/db')
+const Utils = require('../../common/utils')
 //获取注册号下的所有礼品
 router.post('/RedemptionCode', async ctx => {
     console.log(ctx.request.body)

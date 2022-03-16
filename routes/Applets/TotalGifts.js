@@ -1,6 +1,6 @@
 const router = require('koa-router')()
-const db = require('../common/db')
-const Utils = require('../common/utils')
+const db = require('../../common/db')
+const Utils = require('../../common/utils')
 
 router.post('/TotalGifts', async ctx => {
     console.log(ctx.request.body.Registration)

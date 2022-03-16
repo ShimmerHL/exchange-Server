@@ -1,6 +1,6 @@
 const router = require('koa-router')()
-const db = require("../common/db")
-const Utils = require("../common/Utils")
+const db = require('../../common/db')
+const Utils = require('../../common/utils')
 
 router.post("/CheckDetails",async ctx=>{
     console.log(ctx.request.body.OrderUnique)
