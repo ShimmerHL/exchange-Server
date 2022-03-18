@@ -21,6 +21,7 @@ const CheckDetails = require('./routes/Applets/CheckDetails')
 const Order = require('./routes/Applets/Order')
 const Admin = require('./routes/Manage/Admin')
 const GiftManagement = require('./routes/Manage/GiftManagement')
+const UserManagement = require('./routes/Manage/UserManagement')
 // error handler
 onerror(app)
 
@@ -56,6 +57,7 @@ app.use(CheckDetails.routes(), CheckDetails.allowedMethods())
 app.use(Order.routes(), Order.allowedMethods())
 app.use(Admin.routes(), Admin.allowedMethods())
 app.use(GiftManagement.routes(), GiftManagement.allowedMethods())
+app.use(UserManagement.routes(), UserManagement.allowedMethods())
 
 app.use(cors())  //跨域
 //解决上传文件过大问题

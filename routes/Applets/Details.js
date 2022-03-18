@@ -4,7 +4,7 @@ const Utils = require('../../common/utils')
 
 //处理商品详情页面
 router.post('/Details', async (ctx) => {
-    const Comparison = null && undefined && '' && NaN
+    const Comparison = null || undefined || " " || NaN
     let GiftUnique = Utils.JsonObj(ctx.request.body)
     let DBQuery = Utils.JsonObj(await db.query(`select * from Details where GiftUnique= '${GiftUnique.GiftUnique}'`))[0]
     let CarouselPictures = []
@@ -19,7 +19,6 @@ router.post('/Details', async (ctx) => {
             IntroduceImg.push(DBQuery[key])
         }
     }
-
     let JsonData = {
         GiftUnique: DBQuery.GiftUnique,
         CommodityName: DBQuery.CommodityName,
@@ -28,7 +27,7 @@ router.post('/Details', async (ctx) => {
         Specification: [...Specification],
         BusinessName: DBQuery.BusinessName,
         IntroduceImg: [...IntroduceImg],
-        SpecificationExist: !Specification,
+        SpecificationExist: Specification.length == 0? false:true,
         Remaining: DBQuery.Remaining,
     }
     ctx.response.body = JSON.stringify(JsonData)

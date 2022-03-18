@@ -19,36 +19,14 @@ let storage = multer.diskStorage({
 let upload = multer({
     storage: storage
 })
-//列表请求
-router.get("/GiftManagement", async ctx => {
-    let Arrson = []
 
-    let Data = await db.query(`select GiftUnique,CommodityName,Registration,Exist from Details`)
+function GiftDetailsDataProcess(Data) {
 
-    for (let i = 0; i < Data.length; i++) {
-        let Json = {
-            GiftUnique: Data[i].GiftUnique,
-            CommodityName: Data[i].CommodityName,
-            Registration: Data[i].Registration,
-            Exist: Data[i].Exist,
-            Edit: false
-        }
-        Arrson.push(Json)
-    }
-
-    Utils.SetHeader(ctx)
-    ctx.response.body = Arrson
-})
-
-//详情请求
-router.get("/GiftManagement/GiftDetails", async ctx => {
     let ArrJson = []
 
     let CarouselPictures = []
     let Specification = []
     let IntroduceImg = []
-
-    let Data = await db.query(`select * from Details `)
 
     for (let i = 0; i < Data.length; i++) {
         CarouselPictures = [
@@ -90,16 +68,91 @@ router.get("/GiftManagement/GiftDetails", async ctx => {
         }
         ArrJson.push(Json)
     }
+    return ArrJson
+}
+
+//列表请求
+router.get("/GiftManagement", async ctx => {
+    let Arrson = []
+
+    let Data = await db.query(`select GiftUnique,CommodityName,Registration,Exist from Details`)
+
+    for (let i = 0; i < Data.length; i++) {
+        let Json = {
+            GiftUnique: Data[i].GiftUnique,
+            CommodityName: Data[i].CommodityName,
+            Registration: Data[i].Registration,
+            Exist: Data[i].Exist,
+            Edit: false
+        }
+        Arrson.push(Json)
+    }
 
     Utils.SetHeader(ctx)
-    ctx.response.body = ArrJson
+    ctx.response.body = Arrson
+})
+
+//详情请求
+router.get("/GiftManagement/GiftDetails", async ctx => {
+
+    let Data = await db.query(`select * from Details `)
+
+    Utils.SetHeader(ctx)
+    ctx.response.body = GiftDetailsDataProcess(Data)
+})
+
+//实时查询 
+router.post("/GiftManagement/GifManagementSearch", async ctx => {
+    let Text = ctx.request.body.Text
+    let DataArr = []
+
+    let Data = await db.query(`select GiftUnique,CommodityFunllName from Details where CommodityFunllName like '%${Text}%'`)
+
+    for (let i = 0; i < Data.length; i++) {
+        DataArr.push({
+            value: Data[i].CommodityFunllName,
+            GiftUnique: Data[i].GiftUnique
+        })
+    }
+    Utils.SetHeader(ctx)
+    ctx.response.body = DataArr
+})
+
+//查询返回列表数据
+router.post("/GiftManagement/GiftSearchReturnManagementData", async ctx => {
+    let GiftUnique = ctx.request.body.GiftUnique
+    let DataArr = []
+    let Data = await db.query(`select GiftUnique,CommodityName,Registration,Exist from Details where GiftUnique = '${GiftUnique}'`)
+
+    for (let i = 0; i < Data.length; i++) {
+        let Json = {
+            GiftUnique: Data[i].GiftUnique,
+            CommodityName: Data[i].CommodityName,
+            Registration: Data[i].Registration,
+            Exist: Data[i].Exist,
+            Edit: false
+        }
+        DataArr.push(Json)
+    }
+
+    Utils.SetHeader(ctx)
+    ctx.response.body = DataArr
+})
+
+//查询返回详情数据
+router.post("/GiftManagement/GiftSearchReturnDetailsData", async ctx => {
+    let GiftUnique = ctx.request.body.GiftUnique
+    let Data = await db.query(`select * from Details where GiftUnique = '${GiftUnique}' `)
+
+    Utils.SetHeader(ctx)
+    ctx.response.body = GiftDetailsDataProcess(Data)
 })
 
 //礼品Exist状态修改 
 router.post("/GiftManagement/GiftDeleteOrRecover", async ctx => {
     let GiftUnique = ctx.request.body.GiftUnique
     let Exist = ctx.request.body.Exist
-    console.log(ctx.request.body)
+
     db.query(`update Details set Exist = '${Exist}' where GiftUnique = '${GiftUnique}'`)
     db.query(`update RedemptionCode set Used = '${Exist}' where GiftUnique = '${GiftUnique}'`)
 
@@ -124,7 +177,7 @@ router.post("/GiftManagement/UpLoadImg", upload.single('Img'), async ctx => {
     let ColumnName = ctx.req.body.Name
 
     let FinishUrl = "/" + ImgUrl + ImgName
-    console.log(FinishUrl, GiftUnique)
+
     db.query(`update CustomGifts set ${ColumnName} = '${FinishUrl}' where GiftUnique = '${GiftUnique}'`)
     db.query(`update Details set ${ColumnName} = '${FinishUrl}' where GiftUnique = '${GiftUnique}'`)
 
@@ -147,7 +200,7 @@ router.post("/GiftManagement/GiftBasicInformationChange", async ctx => {
     let GiftUnique = ctx.request.body.GiftUnique
     let ColumnName = ctx.request.body.Name
     let ChangeText = ctx.request.body.ChangeText
-    
+    console.log(ctx.request.body)
     db.query(`update CustomGifts set ${ColumnName} = '${ChangeText}' where GiftUnique = '${GiftUnique}'`)
     db.query(`update Details set ${ColumnName} = '${ChangeText}' where GiftUnique = '${GiftUnique}'`)
 
