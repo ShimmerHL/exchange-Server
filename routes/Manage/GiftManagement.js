@@ -102,7 +102,7 @@ router.get("/GiftManagement/GiftDetails", async ctx => {
 })
 
 //实时查询 
-router.post("/GiftManagement/GifManagementSearch", async ctx => {
+router.post("/GiftManagement/GiftManagementSearch", async ctx => {
     let Text = ctx.request.body.Text
     let DataArr = []
 
