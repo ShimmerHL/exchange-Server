@@ -24,6 +24,7 @@ const GiftManagement = require('./routes/Manage/GiftManagement')
 const UserManagement = require('./routes/Manage/UserManagement')
 const EnterpriseManagement = require('./routes/Manage/EnterpriseManagement')
 const CustomQuery = require('./routes/Manage/CustomQuery')
+const LogisticsManagement = require('./routes/Manage/LogisticsManagement')
 
 // error handler
 onerror(app)
@@ -63,6 +64,7 @@ app.use(GiftManagement.routes(), GiftManagement.allowedMethods())
 app.use(UserManagement.routes(), UserManagement.allowedMethods())
 app.use(EnterpriseManagement.routes(), EnterpriseManagement.allowedMethods())
 app.use(CustomQuery.routes(), CustomQuery.allowedMethods())
+app.use(LogisticsManagement.routes(), LogisticsManagement.allowedMethods())
 
 app.use(cors())  //跨域
 //解决上传文件过大问题

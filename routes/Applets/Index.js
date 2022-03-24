@@ -3,7 +3,7 @@ const db = require('../../common/db')
 const Utils = require('../../common/utils')
 
 //处理礼品列表
-router.get('/index', async (ctx) => {
+router.get('/index', async ctx => {
   let JsonArr = await db.query("select GiftUnique,Thumbnail,CommodityName,Remaining,Label from Details where Exist != 1")
   
   ctx.body = {
@@ -15,7 +15,7 @@ router.get('/index', async (ctx) => {
 
 
 //处理首次点击搜索按钮获取的标题GiftUnique
-router.get('/index/OneSearch', async (ctx) => {
+router.get('/index/OneSearch', async ctx => {
   let JsonArr = await db.query(`select GiftUnique,CommodityName from details as t1 where t1.id>=(rand()*(select max(id) from details where Exist != 1))limit 6`)
 
   ctx.response.body = {
@@ -27,7 +27,7 @@ router.get('/index/OneSearch', async (ctx) => {
 })
 
 //处理搜索
-router.post('/index/Search', async (ctx) => {
+router.post('/index/Search', async ctx => {
   let SearchData = await db.query(`select GiftUnique,Thumbnail,CommodityName,Frequency,Label from details where CommodityFunllName like '%${ctx.request.body.SearchValue}%' and Exist != 1 `)
 
   if (SearchData.length == 0) {
@@ -46,7 +46,7 @@ router.post('/index/Search', async (ctx) => {
 })
 
 //处理输入
-router.post('/index/EnterSearch', async (ctx) => {
+router.post('/index/EnterSearch', async ctx => {
   console.log(ctx.request.body.EnterSearch)
   let SearchData = await db.query(`select GiftUnique,CommodityName from details where CommodityFunllName like '%${ctx.request.body.EnterSearch}%' and Exist != 1 limit 0,6`,(err)=>{
     if(err) console.log(err)
@@ -60,9 +60,8 @@ router.post('/index/EnterSearch', async (ctx) => {
 
 
 //处理输入搜索时的标题GiftUnique
-router.post('/index/SearchTitle', async (ctx) => {
-  console.log(ctx.request.body.GiftUnique)
-  let JsonArr = await db.query(`select GiftUnique,Thumbnail,CommodityName,Frequency,Label from Details where GiftUnique = '${ctx.request.body.GiftUnique}'`)
+router.post('/index/SearchTitle', async ctx => {
+  let JsonArr = await db.query(`select GiftUnique,Thumbnail,CommodityName,Remaining,Label from Details where GiftUnique = '${ctx.request.body.GiftUnique}'`)
   ctx.body = {
     "Data": JsonArr,
     "Code": 200,

@@ -28,7 +28,7 @@ function UserDetailsDataProcess(Data) { //详情数据处理
 
 //列表请求
 router.get("/UserManagement", async ctx => {
-    let Arrson = []
+    let ArrJson = []
 
     let Data = await db.query(`select Useropenid,UserName,Phone from WeChatUserLogin`)
 
@@ -39,18 +39,18 @@ router.get("/UserManagement", async ctx => {
             Phone: Data[i].Phone,
             Edit: false
         }
-        Arrson.push(Json)
+        ArrJson.push(Json)
     }
 
     Utils.SetHeader(ctx)
-    ctx.response.body = Arrson
+    ctx.response.body = ArrJson
 })
 
 //详情请求
 router.get("/UserManagement/UserDetails", async ctx => {
 
     let Data = await db.query(`select * from WeChatUserLogin `)
-
+    console.log(Data)
     Utils.SetHeader(ctx)
     ctx.response.body = UserDetailsDataProcess(Data)
 })
@@ -78,7 +78,7 @@ router.post("/UserManagement/UserSearchReturnManagementData", async ctx => {
     let Useropenid = ctx.request.body.Useropenid
     let DataArr = []
     console.log(Useropenid)
-    let Data = await db.query(`select Useropenid,UserName,Phone from WeChatUserLogin where Useropenid = '${Useropenid}'`)
+    let Data = await db.query(`select Useropenid,UserName,Phone from WeChatUserLogin where Useropenid = '${Useropenid}' `)
 
     for (let i = 0; i < Data.length; i++) {
         let Json = {

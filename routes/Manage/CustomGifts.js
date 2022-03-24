@@ -146,14 +146,14 @@ let upload = multer({
 })
 
 //获取商家唯一Code和需要插入的数据统计与礼品标签与礼品总数
-router.post("/CustomGifts", async ctx => {
+router.post("/ManageCustomGifts", async ctx => {
     console.log(ctx.request.body)
     FrontEnd = ctx.request.body.FrontEnd
     Registration = ctx.request.body.Registration
     GiftUnique = Utils.StringRamdom(15) + Date.now()
     GiftNumber = ctx.request.body.GiftNumber
     Label = parseInt(ctx.request.body.Label)
-    ImgDir = `public/images/${Registration}/${GiftUnique}/`
+    ImgDir = `public/imagestest/${Registration}/${GiftUnique}/`
     mkdirSync(ImgDir, { recursive: true }, (err) => {
         if (err) {
             console.log("创建文件夹时出错啦")
@@ -170,7 +170,7 @@ router.post("/CustomGifts", async ctx => {
 })
 
 //处理轮播图片
-router.post("/CustomGifts/CarouselPictures", upload.single('img'), async ctx => {
+router.post("/ManageCustomGifts/CarouselPictures", upload.single('img'), async ctx => {
 
     //当未创建文件夹时退出
     if (ImgDir == "") {
@@ -189,7 +189,7 @@ router.post("/CustomGifts/CarouselPictures", upload.single('img'), async ctx => 
 })
 
 //缩略名
-router.post("/CustomGifts/CommodityName", async ctx => {
+router.post("/ManageCustomGifts/CommodityName", async ctx => {
     CommodityName = ctx.request.body.CommodityName
     Finish[2] = "1"
 
@@ -205,7 +205,7 @@ router.post("/CustomGifts/CommodityFunllName", async ctx => {
 })
 
 //企业注册号
-router.post("/CustomGifts/BusinessName", async ctx => {
+router.post("/ManageCustomGifts/BusinessName", async ctx => {
     BusinessName = ctx.request.body.BusinessName
     Finish[4] = "1"
 
@@ -213,7 +213,7 @@ router.post("/CustomGifts/BusinessName", async ctx => {
 })
 
 //规格
-router.post("/CustomGifts/Specification", async ctx => {
+router.post("/ManageCustomGifts/Specification", async ctx => {
     Specification = ctx.request.body.Specification
     Finish[5] = "1"
 
@@ -221,7 +221,7 @@ router.post("/CustomGifts/Specification", async ctx => {
 })
 
 //处理详情图片
-router.post("/CustomGifts/IntroduceImg", upload.single('img'), async ctx => {
+router.post("/ManageCustomGifts/IntroduceImg", upload.single('img'), async ctx => {
     //当未创建文件夹时退出
     if (ImgDir == "") {
         return
@@ -239,7 +239,7 @@ router.post("/CustomGifts/IntroduceImg", upload.single('img'), async ctx => {
     Finish[6] = "1"
 })
 //处理数据插入
-router.get('/CustomGifts/dbSuccess', async ctx => {
+router.get('/ManageCustomGifts/dbSuccess', async ctx => {
     //插入数据
     let InsertOk = await Insert(Finish, FrontEnd)
     if (InsertOk !== 1) {

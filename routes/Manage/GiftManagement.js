@@ -178,6 +178,10 @@ router.post("/GiftManagement/UpLoadImg", upload.single('Img'), async ctx => {
 
     let FinishUrl = "/" + ImgUrl + ImgName
 
+    if (ColumnName == "CarouselPictures1") {
+        db.query(`update Details set Thumbnail = '${FinishUrl}' where GiftUnique = '${GiftUnique}'`)
+    }
+
     db.query(`update CustomGifts set ${ColumnName} = '${FinishUrl}' where GiftUnique = '${GiftUnique}'`)
     db.query(`update Details set ${ColumnName} = '${FinishUrl}' where GiftUnique = '${GiftUnique}'`)
 

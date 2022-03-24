@@ -38,7 +38,7 @@ router.post('/Details/Submit', async (ctx) => {
 
     let OrderUnique = Utils.RandomNumber() //创建订单唯一id
     let LogisticsStatus = "1" //物流默认状态 0已完成 1待发货 2待收货 3售后中
-    let StateTime = "1990-01-01"//更新状态时间 暂未做
+    let StateTime = ctx.request.body.OrderTime//更新状态时间 第一次为创建时间
     let Receiver = ctx.request.body.Receiver  //接收者
     let Phone = ctx.request.body.Phone  //接收者手机号
     let RegionAndAddress = ctx.request.body.Region + " " + ctx.request.body.Address //接收地址
