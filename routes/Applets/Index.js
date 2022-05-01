@@ -28,7 +28,8 @@ router.get('/index/OneSearch', async ctx => {
 
 //处理搜索
 router.post('/index/Search', async ctx => {
-  let SearchData = await db.query(`select GiftUnique,Thumbnail,CommodityName,Frequency,Label from details where CommodityFunllName like '%${ctx.request.body.SearchValue}%' and Exist != 1 `)
+  console.log(ctx.request.body)
+  let SearchData = await db.query(`select GiftUnique,Thumbnail,CommodityName,Label from details where CommodityFunllName like '%${ctx.request.body.SearchValue}%' and Exist != 1 `)
 
   if (SearchData.length == 0) {
     ctx.response.body = {

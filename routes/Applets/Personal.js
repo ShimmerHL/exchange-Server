@@ -112,7 +112,7 @@ router.post('/EnterpriseUserLogin', async ctx => {
             return
         }
 
-        db.query(`update EnterpriseUserLogin set StateCode = '${StateCode}' where Registration = ${Registration}`)
+        db.query(`update EnterpriseUserLogin set StateCode = '${StateCode}' where Registration = '${Registration}'`)
 
 
 

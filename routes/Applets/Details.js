@@ -34,7 +34,7 @@ router.post('/Details', async (ctx) => {
 })
 
 router.post('/Details/Submit', async (ctx) => {
-    let GiftInformation = await db.query(`select CommodityFunllName,Thumbnail,BusinessName from Details where GiftUnique = '${ctx.request.body.GiftUnique}'`) //礼品全名
+    let GiftInformation = await db.query(`select CommodityFunllName,Thumbnail,BusinessName from Details where GiftUnique = '${ctx.request.body.GiftUnique}'`) //礼品所需信息
 
     let OrderUnique = Utils.RandomNumber() //创建订单唯一id
     let LogisticsStatus = "1" //物流默认状态 0已完成 1待发货 2待收货 3售后中

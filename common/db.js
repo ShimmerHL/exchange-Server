@@ -17,10 +17,13 @@ db.connect((err) => {
 let query = (sql, callback) => {
 	return new Promise((resolve, reject) => {
 		db.query(sql, (err, data) => {
-			if (err) reject(err)
-			//  console.log(data)
-			else resolve(data)
+			if (err){
+				reject(err)
+			}else {
+				resolve(data)
+			}
 		})
+		
 	})
 
 }

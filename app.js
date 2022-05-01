@@ -87,4 +87,9 @@ app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 });
 
+// error-handling
+app.on('error', (err, ctx) => {
+  console.error('server error', err, ctx)
+});
+
 module.exports = app
