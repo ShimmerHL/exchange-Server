@@ -21,7 +21,7 @@ router.post('/Personal', async ctx => {
     let NewDate = Utils.formatTime(new Date)
 
     let CodeSession = new Promise((res, rej) => {
-        https.get(`https://api.weixin.qq.com/sns/jscode2session?appid=wx5fc605f95c3f149a&secret=19258f927c56a163d920cd8d2dadeb3d&js_code=${ctx.request.body.Code}&grant_type=authorization_code`,
+        https.get(`https://api.weixin.qq.com/sns/jscode2session?appid=wxxxxxxxxxxxx=xxxxxxxxxxxxxxxxxxxxxxxxx&js_code=${ctx.request.body.Code}&grant_type=authorization_code`,
             (callback) => {
                 if (callback.statusCode == 200) {
                     callback.on('data', (chunk) => {
